@@ -2,13 +2,17 @@
 
 Open `index.html` in a browser, or run `python3 -m http.server 8000` in this folder and visit [localhost:8000](http://localhost:8000). The site uses plain HTML, CSS, and JavaScript. There is no install or build step.
 
+## Guest links
+
+- **January 10 only.** Send the site's regular link, such as `https://YOUR-USERNAME.github.io/raunaq-mehardeep-wedding/`. Guests see Anand Karaj and Wedding Lunch.
+- **January 9–10.** Append `?invite=full` to the site link. Guests also see Sagan Ceremony, Ring Ceremony, and Dinner.
+
+WhatsApp sharing follows the version opened. Both links are public. Anyone with the full link can open it.
+
 ## Personalize
 
-- Edit `WEDDING_CONFIG` at the top of `script.js`. Keep an explicit UTC offset in each event timestamp. Venue maps, itinerary and RSVP choices use the same event and venue data.
-- Set `rsvpEndpoint` to the Formspree form URL. While it is empty, the form validates and shows a preview confirmation without sending data. Verify that a test RSVP arrives in your Formspree dashboard after publishing. The Formspree Free plan currently includes 50 submissions per month.
-- Set `photoAlbumUrl` to a Google Photos shared album with collaboration enabled, or a Dropbox file request. Check the link as a guest.
+- Edit `WEDDING_CONFIG` at the top of `script.js`. Keep an explicit UTC offset in each event timestamp. The printed schedule and its map links use the same event and venue data.
 - Edit the palette in `:root` at the top of `styles.css`. The local artwork is adapted from the supplied wedding invitation. The short instrumental is placeholder audio. Replace it by changing `audioPath`.
-- The invitation does not specify dress codes. Set `dressCode` on each event once you have confirmed it.
 
 ## Deploy on a free static host
 

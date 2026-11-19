@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1c302a">
-  <meta name="description" content="A wedding invitation, celebration schedule, venue directions, and RSVP.">
+  <meta name="theme-color" content="#103c32">
+  <meta name="description" content="A wedding invitation with celebration times and venue directions.">
   <title>Wedding Invitation</title>
   <link rel="stylesheet" href="./styles.css">
   <script src="./script.js" defer></script>
@@ -61,95 +61,65 @@
   <main id="invitation" hidden>
     <a class="skip-link" href="#celebrations">Skip to celebrations</a>
     <header class="hero">
+      <p class="hero-symbol" lang="pa">ੴ</p>
       <div class="hero-content">
-        <p class="hero-blessing"><span lang="pa" aria-hidden="true">ੴ</span> With the blessings of Waheguru</p>
-        <h1 id="couple-heading" tabindex="-1"><span id="first-name"></span><span class="hero-amp">&amp;</span><span id="second-name"></span></h1>
+        <p class="hero-label">Wedding invitation</p>
         <p class="hero-date" id="wedding-date"></p>
-        <p class="hero-location" id="wedding-location"></p>
-        <a class="ceremony-link" id="ceremony-link"></a>
-        <nav class="hero-links" aria-label="Invitation">
-          <a href="#celebrations">Celebrations</a>
-          <a href="#travel">Travel</a>
-          <a href="#rsvp">RSVP</a>
-        </nav>
+        <h1 id="couple-heading" tabindex="-1">
+          <span data-person="0"></span>
+          <span class="hero-connector">weds</span>
+          <span data-person="1"></span>
+        </h1>
       </div>
     </header>
 
-    <section class="section welcome" aria-labelledby="welcome-title">
-      <svg class="sprig" aria-hidden="true"><use href="#sprig"/></svg>
-      <h2 id="welcome-title">Together with our families</h2>
-      <p class="welcome-copy" id="welcome-copy"></p>
-      <div class="families" id="families"></div>
-      <p class="remembrance">With heavenly blessings from <strong id="heavenly-blessing"></strong></p>
-    </section>
-
-    <section class="countdown" aria-labelledby="countdown-title">
+    <section class="engagement" id="engagement" aria-labelledby="engagement-title" hidden>
       <div class="section">
-        <h2 id="countdown-title">Until the Anand Karaj</h2>
-        <dl class="countdown-grid" id="countdown">
-          <div><dt>Days</dt><dd>00</dd></div>
-          <div><dt>Hours</dt><dd>00</dd></div>
-          <div><dt>Minutes</dt><dd>00</dd></div>
-          <div><dt>Seconds</dt><dd>00</dd></div>
-        </dl>
-        <p id="countdown-complete" role="status" hidden>The time for the Anand Karaj has arrived.</p>
+        <div class="card-heading reveal">
+          <p class="engagement-motto">A celebration of vows and promises</p>
+          <p class="script-name engagement-host" id="engagement-host"></p>
+          <p>is delighted to invite you to the</p>
+          <h2 id="engagement-title">Sagan &amp; Engagement Ceremony</h2>
+          <p>of his brother</p>
+          <p class="script-name engagement-name" data-person="0"></p>
+          <p>with</p>
+          <p class="script-name engagement-name" data-person="1"></p>
+        </div>
+        <div class="itinerary" id="engagement-itinerary"></div>
       </div>
     </section>
 
-    <section class="section" id="celebrations" aria-labelledby="celebrations-title">
-      <div class="section-heading">
-        <svg class="sprig" aria-hidden="true"><use href="#sprig"/></svg>
-        <h2 id="celebrations-title">The celebrations</h2>
-        <p>All times are local to New Delhi.</p>
-      </div>
-      <div class="itinerary" id="itinerary"></div>
-    </section>
-
-    <section class="travel" id="travel" aria-labelledby="travel-title">
+    <section id="celebrations" aria-labelledby="celebrations-title">
       <div class="section">
-        <div class="section-heading">
+        <div class="card-heading reveal">
+          <p class="wedding-symbol" lang="pa" aria-hidden="true">ੴ</p>
+          <p class="invocation">With the blessings of <strong>Waheguru</strong></p>
           <svg class="sprig" aria-hidden="true"><use href="#sprig"/></svg>
-          <h2 id="travel-title">Travel &amp; memories</h2>
+          <p id="welcome-copy"></p>
+          <h2 id="celebrations-title">wedding celebrations</h2>
+          <p>of their son</p>
         </div>
-        <div class="travel-grid" id="travel-cards"></div>
-      </div>
-    </section>
-
-    <section class="section rsvp" id="rsvp" aria-labelledby="rsvp-title">
-      <div class="section-heading">
-        <svg class="sprig" aria-hidden="true"><use href="#sprig"/></svg>
-        <h2 id="rsvp-title">Kindly RSVP</h2>
-        <p>Let us know which celebrations you can join.</p>
-      </div>
-      <form class="rsvp-form" id="rsvp-form" method="post">
-        <p class="preview-note" id="rsvp-preview" hidden>RSVP preview. You can try the form here. Responses are not sent.</p>
-        <div class="form-grid">
-          <label>Guest name <input name="name" autocomplete="name" required maxlength="120"></label>
-          <label>Phone or email <input name="contact" required maxlength="160"></label>
+        <div class="families" id="families"></div>
+        <div class="itinerary" id="itinerary"></div>
+        <div class="family-blessings reveal">
+          <p class="remembrance">With heavenly blessings from <strong id="heavenly-blessing"></strong></p>
+          <h3>Together we celebrate love, laughter and new beginnings</h3>
+          <ul class="family-names" id="family-names"></ul>
+          <h3>Sharing the joy &amp; happiness</h3>
+          <p id="sharing-the-joy"></p>
         </div>
-        <fieldset class="attendance-options">
-          <legend>Will you attend?</legend>
-          <label><input type="radio" name="attendance" value="Attending" required> Joyfully attending</label>
-          <label><input type="radio" name="attendance" value="Regretfully decline"> Regretfully decline</label>
-        </fieldset>
-        <fieldset class="attendance-details" id="attendance-details" hidden disabled>
-          <legend class="sr-only">Attendance details</legend>
-          <label>Number of guests, including you <input name="guests" type="number" min="1" step="1" value="1" required></label>
-          <fieldset class="event-options">
-            <legend>Events you’ll attend</legend>
-            <div id="rsvp-events"></div>
-            <p class="form-error" id="event-error" hidden>Select at least one event.</p>
-          </fieldset>
-          <label>Dietary preferences <span class="optional">(optional)</span><textarea name="dietary" rows="3" maxlength="400"></textarea></label>
-        </fieldset>
-        <button class="primary-button" type="submit">Send RSVP</button>
-        <p class="form-error" id="rsvp-error" role="alert" hidden></p>
-      </form>
-      <div class="confirmation" id="rsvp-confirmation" tabindex="-1" hidden>
-        <span aria-hidden="true">✦</span>
-        <h3 id="confirmation-title"></h3>
-        <p id="confirmation-text"></p>
-        <button class="text-button" type="button" id="rsvp-again">Send another response</button>
+      </div>
+      <div class="countdown" aria-labelledby="countdown-title" role="group">
+        <div class="section">
+          <h3 class="reveal" id="countdown-title">Until the Anand Karaj</h3>
+          <dl class="countdown-grid reveal" id="countdown">
+            <div><dt>Days</dt><dd>00</dd></div>
+            <div><dt>Hours</dt><dd>00</dd></div>
+            <div><dt>Minutes</dt><dd>00</dd></div>
+            <div><dt>Seconds</dt><dd>00</dd></div>
+          </dl>
+          <p id="countdown-complete" role="status" hidden>The time for the Anand Karaj has arrived.</p>
+        </div>
       </div>
     </section>
 

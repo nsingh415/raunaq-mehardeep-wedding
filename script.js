@@ -5,7 +5,6 @@ const WEDDING_CONFIG = {
   couple: [
     {
       name: "Raunaq",
-      parents: "Son of Randeep & Raminder Singh Sawhney",
       grandparents: [
         "Late Mrs. Harinder Kaur & Late Mr. Rajinder Singh Sawhney",
         "Mrs. Rajinder Kaur & Late Mr. Mohinder Singh",
@@ -16,20 +15,24 @@ const WEDDING_CONFIG = {
       parents: "Daughter of Gurpreet & Ravinder Pal Singh Anand",
     },
   ],
-  welcome: "With the blessings of Waheguru, our families invite you to celebrate the wedding of their beloved children. Nehal warmly invites you to his brother’s Sagan and Engagement Ceremony.",
+  welcome: "Randeep & Raminder cordially invite you to the",
+  engagementHost: "Nehal",
   heavenlyBlessing: "Late Mrs. Bimla Kaur",
+  celebratingFamily: [
+    "Harshit & Jagdeep Singh", "Minnie & Sukhdeep Singh",
+    "Ranbir & Gurmeet Singh", "Monica & Rajpal Singh",
+    "Narinder Kaur", "Dimpy & Manpreet Singh",
+  ],
+  sharingTheJoy: "Nehal, Amarvir, Amandeep, Mannat, Arshdeep, Nikki, Tajevir, Tejeshwar, Simarjot & Adhiraj",
   location: "New Delhi, India",
   timeZone: "Asia/Kolkata",
   ceremonyId: "anand-karaj",
   audioPath: "./assets/instrumental.m4a",
-  rsvpEndpoint: "https://formspree.io/f/xaeojzpz",
-  photoAlbumUrl: "", // Paste a guest-accessible shared album or upload link here.
   venues: {
     hotel: {
       name: "Radisson Blu",
       area: "Paschim Vihar, New Delhi",
       mapUrl: "https://www.google.com/maps/search/?api=1&query=Radisson+Blu+Hotel+New+Delhi+Paschim+Vihar",
-      hotelUrl: "https://www.radissonhotels.com/en-us/hotels/radisson-blu-new-delhi-paschim-vihar",
     },
     gurudwara: {
       name: "Gurudwara Singh Sabha",
@@ -38,22 +41,22 @@ const WEDDING_CONFIG = {
     },
   },
   events: [
-    { id: "sagan", title: "Sagan Ceremony", startsAt: "2027-01-09T18:30:00+05:30", venue: "hotel", dressCode: "" },
-    { id: "ring", title: "Ring Ceremony", startsAt: "2027-01-09T19:30:00+05:30", venue: "hotel", dressCode: "" },
-    { id: "dinner", title: "Dinner & Cocktails", startsAt: "2027-01-09T20:00:00+05:30", venue: "hotel", dressCode: "" },
-    { id: "anand-karaj", title: "Anand Karaj", startsAt: "2027-01-10T11:30:00+05:30", venue: "gurudwara", dressCode: "" },
-    { id: "lunch", title: "Wedding Lunch", startsAt: "2027-01-10T13:00:00+05:30", venue: "hotel", dressCode: "" },
+    { id: "anand-karaj", title: "Anand Karaj", startsAt: "2027-01-10T11:30:00+05:30", venue: "gurudwara" },
+    { id: "lunch", title: "Wedding Lunch", startsAt: "2027-01-10T13:00:00+05:30", venue: "hotel" },
+  ],
+  fullInviteEvents: [
+    { id: "sagan", title: "Sagan Ceremony", startsAt: "2027-01-09T18:30:00+05:30", venue: "hotel" },
+    { id: "ring", title: "Ring Ceremony", startsAt: "2027-01-09T19:30:00+05:30", venue: "hotel" },
+    { id: "dinner", title: "Dinner", startsAt: "2027-01-09T20:00:00+05:30", venue: "hotel" },
   ],
 };
 
 const byId = (id) => document.getElementById(id);
-const { couple, timeZone, events, venues } = WEDDING_CONFIG;
+const { couple, timeZone, venues, events } = WEDDING_CONFIG;
+const fullInvite = new URLSearchParams(location.search).get("invite") === "full";
 const ceremony = events.find((event) => event.id === WEDDING_CONFIG.ceremonyId);
 const dateFormat = new Intl.DateTimeFormat("en-IN", {
   timeZone, weekday: "long", day: "numeric", month: "long", year: "numeric",
-});
-const shortDateFormat = new Intl.DateTimeFormat("en-IN", {
-  timeZone, day: "numeric", month: "short",
 });
 const timeFormat = new Intl.DateTimeFormat("en-IN", {
   timeZone, hour: "numeric", minute: "2-digit", hour12: true,
@@ -85,23 +88,20 @@ function externalLink(label, url, map = false) {
 
 function renderCouple() {
   const names = couple.map(({ name }) => name).join(" & ");
-  const ceremonyStarts = new Date(ceremony.startsAt);
-  const weddingDate = dateFormat.format(ceremonyStarts);
+  const weddingDate = dateFormat.format(new Date(ceremony.startsAt));
   document.title = names + " | Wedding invitation";
   document.querySelectorAll("[data-couple]").forEach((node) => { node.textContent = names; });
   document.querySelector("[data-monogram]").textContent = couple.map(({ name }) => name[0]).join("·");
-  byId("first-name").textContent = couple[0].name;
-  byId("second-name").textContent = couple[1].name;
-  byId("wedding-location").textContent = WEDDING_CONFIG.location;
+  document.querySelectorAll("[data-person]").forEach((node) => {
+    node.textContent = couple[node.dataset.person].name;
+  });
   byId("wedding-date").textContent = weddingDate;
   byId("footer-date").textContent = weddingDate + " · " + WEDDING_CONFIG.location;
-  const ceremonyLink = byId("ceremony-link");
-  ceremonyLink.href = "#" + ceremony.id;
-  ceremonyLink.textContent = ceremony.title + " · " + timeFormat.format(ceremonyStarts).toUpperCase();
   if (location.protocol === "https:") {
     const invitationUrl = new URL(location.href);
     invitationUrl.search = "";
     invitationUrl.hash = "";
+    if (fullInvite) invitationUrl.searchParams.set("invite", "full");
     const shareUrl = new URL("https://wa.me/");
     shareUrl.searchParams.set("text", names + " | Wedding invitation\n" + weddingDate + "\n" + invitationUrl);
     const shareLink = externalLink("Share on WhatsApp", shareUrl);
@@ -110,9 +110,15 @@ function renderCouple() {
   }
   byId("welcome-copy").textContent = WEDDING_CONFIG.welcome;
   byId("heavenly-blessing").textContent = WEDDING_CONFIG.heavenlyBlessing;
-  for (const person of couple) {
-    const family = element("article", "", "family");
-    family.append(element("h3", person.name), element("p", person.parents));
+  for (const name of WEDDING_CONFIG.celebratingFamily) {
+    byId("family-names").append(element("li", name));
+  }
+  byId("sharing-the-joy").textContent = WEDDING_CONFIG.sharingTheJoy;
+  for (const [index, person] of couple.entries()) {
+    if (index > 0) byId("families").append(element("p", "with", "family-connector reveal"));
+    const family = element("article", "", "family reveal");
+    family.append(element("h3", person.name, "script-name"));
+    if (person.parents) family.append(element("p", person.parents));
     if (person.grandparents?.length) {
       family.append(element("p", "Grandson of", "family-detail"));
       for (const relative of person.grandparents) {
@@ -123,43 +129,37 @@ function renderCouple() {
   }
 }
 
-function renderItinerary() {
+function appendVenue(container, venue, occasion) {
+  const location = element("p", venue.name, "event-venue");
+  location.append(element("span", venue.area));
+  const map = externalLink("View map", venue.mapUrl, true);
+  map.setAttribute("aria-label", "View map for " + occasion + " at " + venue.name + " (opens in a new tab)");
+  container.append(location, map);
+}
+
+function renderItinerary(container, schedule) {
   const days = new Map();
-  for (const event of [...events].sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt))) {
+  for (const event of [...schedule].sort((a, b) => Date.parse(a.startsAt) - Date.parse(b.startsAt))) {
     const starts = new Date(event.startsAt);
     const day = dateFormat.format(starts);
     if (!days.has(day)) days.set(day, []);
     days.get(day).push(event);
-
-    const option = element("label");
-    const checkbox = element("input");
-    checkbox.type = "checkbox";
-    checkbox.name = "events";
-    checkbox.value = event.title;
-    checkbox.setAttribute("aria-describedby", "event-error");
-    option.append(checkbox, document.createTextNode(event.title));
-    byId("rsvp-events").append(option);
   }
-
-  const observer = !reducedMotion.matches && "IntersectionObserver" in window
-    ? new IntersectionObserver((entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.remove("reveal-pending");
-            observer.unobserve(entry.target);
-          }
-        }
-      }, { threshold: .12 })
-    : null;
 
   for (const [day, dayEvents] of days) {
     const group = element("section");
-    const cards = element("div", "", dayEvents.length >= 3 ? "day-cards day-cards--three" : "day-cards");
-    group.append(element("h3", day, "day-heading"), cards);
-    byId("itinerary").append(group);
-    dayEvents.forEach((event, index) => {
-      const venue = venues[event.venue];
-      const card = element("article", "", "event-card");
+    const firstVenue = dayEvents[0].venue;
+    const sharesVenue = dayEvents.length > 1 && dayEvents.every((event) => event.venue === firstVenue);
+    const cards = element("div", "", sharesVenue ? "day-cards day-cards--shared" : "day-cards");
+    group.append(element("h3", day, "day-heading reveal"), cards);
+    if (sharesVenue) {
+      const dayVenue = element("div", "", "day-venue reveal");
+      appendVenue(dayVenue, venues[firstVenue], day);
+      group.append(dayVenue);
+    }
+    container.append(group);
+    for (const event of dayEvents) {
+      const card = element("article", "", "event-card reveal");
       const heading = element("h4", event.title);
       if (event.id === ceremony.id) {
         card.id = ceremony.id;
@@ -169,36 +169,33 @@ function renderItinerary() {
         card.setAttribute("aria-labelledby", "ceremony-card-title");
       }
       const starts = new Date(event.startsAt);
-      const time = element("time", shortDateFormat.format(starts) + " · " + timeFormat.format(starts).toUpperCase());
+      const time = element("time", timeFormat.format(starts).toLowerCase());
       time.dateTime = event.startsAt;
-      const location = element("p", venue.name, "event-venue");
-      location.append(element("span", venue.area));
-      const map = externalLink("View map", venue.mapUrl, true);
-      map.setAttribute("aria-label", "View map for " + event.title + " at " + venue.name + " (opens in a new tab)");
-      card.append(time, heading, location,
-        element("p", event.dressCode ? "Dress code · " + event.dressCode : "Dress code not specified", "badge"), map);
+      const details = element("div", "", "event-heading");
+      details.append(heading, time);
+      card.append(details);
+      if (!sharesVenue) appendVenue(card, venues[event.venue], event.title);
       cards.append(card);
-      if (observer) {
-        card.classList.add("reveal", "reveal-pending");
-        card.style.setProperty("--reveal-delay", Math.min(index, 3) * 80 + "ms");
-        observer.observe(card);
-      }
-    });
+    }
   }
 }
 
-function renderTravel() {
-  const { hotel, gurudwara } = venues;
-  const cards = [
-    ["Where to stay", hotel.name + " in " + hotel.area + " hosts the Saturday celebrations and Sunday lunch.", "Visit the hotel website", hotel.hotelUrl],
-    ["Ceremony directions", gurudwara.name + " is in " + gurudwara.area + ".", "Open ceremony map", gurudwara.mapUrl],
-    ["Share your photos", "Add your favourite photos from the celebrations to our shared album.", "Open the shared album", WEDDING_CONFIG.photoAlbumUrl],
-  ];
-  for (const [title, copy, label, url] of cards) {
-    const card = element("article", "", "travel-card");
-    card.append(element("h3", title), element("p", copy));
-    card.append(url ? externalLink(label, url) : element("span", "Album link coming soon", "album-status"));
-    byId("travel-cards").append(card);
+function setUpScrollReveals(invitation) {
+  if (reducedMotion.matches || !("IntersectionObserver" in window)) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const { isIntersecting, target } of entries) {
+      if (isIntersecting) {
+        target.classList.remove("reveal-pending");
+        observer.unobserve(target);
+      }
+    }
+  }, { rootMargin: "0px 0px -24px" });
+
+  for (const section of invitation.querySelectorAll(".reveal")) {
+    if (section.closest("[hidden]")) continue;
+    section.classList.add("reveal-pending");
+    observer.observe(section);
   }
 }
 
@@ -262,6 +259,7 @@ function setUpEnvelope() {
     intro.classList.add("is-opening");
     const showInvitation = () => {
       invitation.hidden = false;
+      setUpScrollReveals(invitation);
       intro.classList.add("is-leaving");
       const finish = () => {
         intro.hidden = true;
@@ -269,7 +267,7 @@ function setUpEnvelope() {
         document.body.classList.remove("intro-open");
         sound.hidden = !hasMusic;
         const section = document.getElementById(location.hash.slice(1));
-        if (section && invitation.contains(section)) {
+        if (section && invitation.contains(section) && !section.closest("[hidden]")) {
           section.tabIndex = -1;
           section.focus({ preventScroll: true });
           section.scrollIntoView({ behavior: "instant" });
@@ -289,110 +287,13 @@ function setUpEnvelope() {
   intro.hidden = false;
 }
 
-function setUpRsvp() {
-  const form = byId("rsvp-form");
-  const details = byId("attendance-details");
-  const eventOptions = byId("rsvp-events");
-  const eventError = byId("event-error");
-  const formError = byId("rsvp-error");
-  const confirmation = byId("rsvp-confirmation");
-  const submit = form.querySelector("button[type=submit]");
-  const guestName = form.elements.namedItem("name");
-  const contact = form.elements.namedItem("contact");
-  const attendance = form.elements.namedItem("attendance");
-  const endpoint = WEDDING_CONFIG.rsvpEndpoint.trim();
-  const submitLabel = endpoint ? "Send RSVP" : "Preview RSVP";
-
-  byId("rsvp-preview").hidden = Boolean(endpoint);
-  if (endpoint) form.action = endpoint;
-  submit.textContent = submitLabel;
-
-  function updateAttendance() {
-    const attending = attendance.value === "Attending";
-    details.hidden = !attending;
-    details.disabled = !attending;
-    eventError.hidden = true;
-  }
-
-  function validateContact() {
-    const value = contact.value.trim();
-    const digits = value.replace(/\D/g, "");
-    const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-    const phone = /^\+?[\d\s().-]+$/.test(value) && digits.length >= 7 && digits.length <= 15;
-    contact.setCustomValidity(email || phone ? "" : "Enter a valid phone number or email address.");
-  }
-
-  guestName.addEventListener("input", () => guestName.setCustomValidity(""));
-  contact.addEventListener("input", validateContact);
-  eventOptions.addEventListener("change", () => { eventError.hidden = true; });
-  form.querySelectorAll('[name="attendance"]').forEach((radio) => radio.addEventListener("change", updateAttendance));
-  updateAttendance();
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    if (submit.disabled) return;
-    formError.hidden = true;
-    guestName.setCustomValidity(guestName.value.trim() ? "" : "Enter your name.");
-    validateContact();
-    if (!form.reportValidity()) return;
-    const attending = attendance.value === "Attending";
-    if (attending && !eventOptions.querySelector(":checked")) {
-      eventError.hidden = false;
-      eventOptions.querySelector("input").focus();
-      return;
-    }
-
-    if (endpoint) {
-      const data = new FormData(form);
-      data.set("name", guestName.value.trim());
-      data.set("contact", contact.value.trim());
-      if (attending) data.set("events", data.getAll("events").join(", "));
-      submit.disabled = true;
-      submit.textContent = "Sending…";
-      try {
-        const response = await fetch(form.action, {
-          method: "POST",
-          body: data,
-          headers: { Accept: "application/json" },
-        });
-        if (!response.ok) {
-          throw new Error(response.status === 429
-            ? "RSVP submissions are temporarily limited. Please try again later."
-            : "Your response could not be sent. Please try again.");
-        }
-      } catch (error) {
-        formError.textContent = error instanceof TypeError
-          ? "We couldn’t reach the RSVP service. Please check your connection and try again."
-          : error.message;
-        formError.hidden = false;
-        return;
-      } finally {
-        submit.disabled = false;
-        submit.textContent = submitLabel;
-      }
-    }
-
-    byId("confirmation-title").textContent = endpoint ? "Thank you for replying!" : "RSVP preview complete!";
-    byId("confirmation-text").textContent = endpoint
-      ? (attending ? "We look forward to celebrating with you." : "Thank you for letting us know.")
-      : "The form is ready to try. Your response was not sent.";
-    form.hidden = true;
-    confirmation.hidden = false;
-    confirmation.focus();
-  });
-
-  byId("rsvp-again").addEventListener("click", () => {
-    form.reset();
-    updateAttendance();
-    confirmation.hidden = true;
-    form.hidden = false;
-    guestName.focus();
-  });
-}
-
 renderCouple();
-renderItinerary();
-renderTravel();
+if (fullInvite) {
+  byId("engagement-host").textContent = WEDDING_CONFIG.engagementHost;
+  renderItinerary(byId("engagement-itinerary"), WEDDING_CONFIG.fullInviteEvents);
+  byId("engagement").hidden = false;
+  document.querySelector(".skip-link").href = "#engagement";
+}
+renderItinerary(byId("itinerary"), events);
 startCountdown();
-setUpRsvp();
 setUpEnvelope();
