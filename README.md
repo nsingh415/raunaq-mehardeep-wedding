@@ -12,7 +12,7 @@ WhatsApp sharing follows the version opened. Missing or incorrect invite codes, 
 ## Personalize
 
 - Edit `WEDDING_CONFIG` at the top of `script.js`. Keep an explicit UTC offset in each event timestamp. The printed schedule and its map links use the same event and venue data.
-- Edit the palette in `:root` at the top of `styles.css`. The local artwork is adapted from the supplied wedding invitation. The background track is Santa Ke Karaj Aap Khaloa. Change `audioPath` to use another track.
+- Edit the palette in `:root` at the top of `styles.css`. The local artwork is adapted from the supplied wedding invitation. The background track is Santa Ke Karaj Aap Khaloa. Change `audioPath` to use another track. `assets/instrumental.m4a` serves the same track to older cached copies.
 
 ## Deploy on a free static host
 
