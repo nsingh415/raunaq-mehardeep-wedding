@@ -284,7 +284,9 @@ function setUpEnvelope() {
 
   document.body.classList.add("intro-open");
   invitation.inert = true;
-  intro.hidden = false;
+  byId("load-note").hidden = true;
+  byId("seal-prompt").hidden = false;
+  seal.disabled = false;
 }
 
 renderCouple();

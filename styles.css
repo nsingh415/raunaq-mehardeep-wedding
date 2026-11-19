@@ -50,7 +50,6 @@ svg { display: block; }
 .sr-only, .skip-link:not(:focus) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .skip-link:focus { position: fixed; z-index: 5; top: 1rem; left: 1rem; padding: .75rem; color: var(--green); background: var(--paper); }
 .sprig { width: 6rem; height: 2.2rem; margin-inline: auto; color: var(--gold-dark); }
-.noscript { padding: 2rem; text-align: center; }
 
 .intro {
   position: fixed;
@@ -153,7 +152,8 @@ svg { display: block; }
   font: italic clamp(1.2rem, 5vw, 1.85rem)/1 var(--display);
   text-shadow: 0 1px var(--gold-light);
 }
-.seal:hover { transform: translate(-50%, -50%) rotate(0) scale(1.07); }
+.seal:disabled { cursor: default; }
+.seal:enabled:hover { transform: translate(-50%, -50%) rotate(0) scale(1.07); }
 .is-opening .seal { opacity: 0; transform: translate(-50%, -50%) rotate(14deg) scale(1.18); }
 .is-opening .envelope-flap { transform: rotateX(180deg); }
 .is-opening .envelope-card { transform: translateY(-48%); }

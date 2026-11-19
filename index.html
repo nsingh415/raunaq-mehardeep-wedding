@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#103c32">
   <meta name="description" content="A wedding invitation with celebration times and venue directions.">
   <title>Wedding Invitation</title>
-  <link rel="stylesheet" href="./styles.css">
-  <script src="./script.js" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=2">
+  <script src="./script.js?v=2" defer></script>
 </head>
 <body>
   <svg class="svg-library" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -22,9 +22,7 @@
     </symbol>
   </svg>
 
-  <noscript><p class="noscript">Please turn on JavaScript to open the wedding invitation.</p></noscript>
-
-  <section class="intro" id="intro" aria-labelledby="intro-title" hidden>
+  <section class="intro" id="intro" aria-labelledby="intro-title">
     <div class="intro-content">
       <div class="intro-heading">
         <svg class="sprig" aria-hidden="true"><use href="#sprig"/></svg>
@@ -39,11 +37,12 @@
         </div>
         <div class="envelope-pocket"></div>
         <div class="envelope-flap"></div>
-        <button class="seal" id="seal" type="button" aria-label="Open the wedding invitation" aria-describedby="seal-prompt">
+        <button class="seal" id="seal" type="button" aria-label="Open the wedding invitation" aria-describedby="seal-prompt" disabled>
           <span class="seal-stamp" aria-hidden="true" data-monogram></span>
         </button>
       </div>
-      <p class="seal-prompt" id="seal-prompt"><span aria-hidden="true">✦</span> Tap the seal to open <span aria-hidden="true">✦</span></p>
+      <p class="seal-prompt" id="seal-prompt" hidden><span aria-hidden="true">✦</span> Tap the seal to open <span aria-hidden="true">✦</span></p>
+      <p class="seal-prompt" id="load-note">If the invitation doesn’t load, <a href="">reload this page</a> with JavaScript enabled.</p>
       <div class="intro-credit" data-couple aria-hidden="true"></div>
     </div>
   </section>

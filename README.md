@@ -22,4 +22,6 @@ WhatsApp sharing follows the version opened. Both links are public. Anyone with 
 
 The footer shows a WhatsApp share link on the hosted HTTPS site. It opens WhatsApp with the invitation link ready to share.
 
+When publishing a change that updates the HTML and its CSS or JavaScript together, increment the asset version in `index.html` so browsers fetch the matching files.
+
 The hosted invitation is public. Review the names, schedule, map destinations, and sharing permissions before publishing.
