@@ -347,7 +347,7 @@ svg { display: block; }
   font: 700 clamp(1.16rem, 4vw, 1.6rem)/1.2 var(--display);
 }
 .script-name { color: var(--green-deep); font: 400 clamp(2.65rem, 8.8vw, 4.25rem)/1.13 var(--script); }
-.engagement-host { margin-bottom: .45rem; color: var(--plum); }
+.host-name { margin-bottom: .45rem; color: var(--plum); }
 .engagement-name { margin-block: .3rem; }
 .wedding-symbol { color: var(--green-deep); font: 2rem/1 var(--display); }
 .invocation { margin-top: .35rem; }
@@ -478,7 +478,7 @@ svg { display: block; }
     transform: translate(var(--reveal-x, 0px), var(--reveal-y, 1rem)) scale(var(--reveal-scale, 1));
   }
   .script-name.reveal, .family { --reveal-scale: .94; --reveal-y: 1.25rem; }
-  .engagement-host, .engagement-name, .event-card:nth-child(2), .countdown-grid div:nth-child(2) {
+  .host-name, .engagement-name, .event-card:nth-child(2), .countdown-grid div:nth-child(2) {
     --reveal-delay: 75ms;
   }
   .event-card:nth-child(3), .countdown-grid div:nth-child(3) { --reveal-delay: 150ms; }
@@ -496,6 +496,24 @@ svg { display: block; }
     .day-cards:not(.day-cards--shared) .event-card:nth-child(2) { --reveal-x: .7rem; }
   }
 
+  @media (min-height: 40rem) {
+    .hero { position: sticky; top: 0; }
+    .hero ~ :is(section, .footer) { position: relative; z-index: 1; }
+    .hero ~ section { box-shadow: 0 -.5rem 1.8rem #103c3229; }
+
+    @supports (animation-timeline: scroll(root block)) and (animation-range: 0px 68svh) {
+      .hero-content {
+        animation: cover-retreat auto linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0px 68svh;
+      }
+      @keyframes cover-retreat {
+        from { opacity: 1; transform: scale(1); }
+        to { opacity: 0; transform: translateY(-1.25rem) scale(.94); }
+      }
+    }
+  }
+
   @supports (animation-timeline: scroll(root block)) and (animation-range: 0px 75svh) {
     .hero::before {
       transform-origin: center bottom;
@@ -506,6 +524,19 @@ svg { display: block; }
     @keyframes floral-drift {
       from { transform: translateY(0) scale(1); }
       to { transform: translateY(3rem) scale(1.09); }
+    }
+  }
+
+  @supports (animation-timeline: view()) and (animation-range: entry 0% entry 65%) {
+    .card-panel {
+      transform-origin: center top;
+      animation: paper-arrival auto cubic-bezier(.18, .75, .28, 1) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 65%;
+    }
+    @keyframes paper-arrival {
+      from { transform: translateY(2.3rem) scale(.95); }
+      to { transform: translateY(0) scale(1); }
     }
   }
 }

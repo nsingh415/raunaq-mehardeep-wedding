@@ -15,7 +15,7 @@ const WEDDING_CONFIG = {
       parents: "Daughter of Gurpreet & Ravinder Pal Singh Anand",
     },
   ],
-  welcome: "Randeep & Raminder cordially invite you to the",
+  weddingHosts: "Randeep & Raminder",
   engagementHost: "Nehal",
   fullInviteCode: "6386cda9d96a9614894e4b7c",
   heavenlyBlessing: "Late Mrs. Bimla Kaur",
@@ -109,7 +109,7 @@ function renderCouple() {
     shareLink.className = "share-link";
     byId("invitation-footer").append(shareLink);
   }
-  byId("welcome-copy").textContent = WEDDING_CONFIG.welcome;
+  byId("wedding-hosts").textContent = WEDDING_CONFIG.weddingHosts;
   byId("heavenly-blessing").textContent = WEDDING_CONFIG.heavenlyBlessing;
   for (const name of WEDDING_CONFIG.celebratingFamily) {
     byId("family-names").append(element("li", name));
