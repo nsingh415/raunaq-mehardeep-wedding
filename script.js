@@ -17,6 +17,7 @@ const WEDDING_CONFIG = {
   ],
   welcome: "Randeep & Raminder cordially invite you to the",
   engagementHost: "Nehal",
+  fullInviteCode: "6386cda9d96a9614894e4b7c",
   heavenlyBlessing: "Late Mrs. Bimla Kaur",
   celebratingFamily: [
     "Harshit & Jagdeep Singh", "Minnie & Sukhdeep Singh",
@@ -53,7 +54,7 @@ const WEDDING_CONFIG = {
 
 const byId = (id) => document.getElementById(id);
 const { couple, timeZone, venues, events } = WEDDING_CONFIG;
-const fullInvite = new URLSearchParams(location.search).get("invite") === "full";
+const fullInvite = new URLSearchParams(location.search).get("invite") === WEDDING_CONFIG.fullInviteCode;
 const ceremony = events.find((event) => event.id === WEDDING_CONFIG.ceremonyId);
 const dateFormat = new Intl.DateTimeFormat("en-IN", {
   timeZone, weekday: "long", day: "numeric", month: "long", year: "numeric",
@@ -101,7 +102,7 @@ function renderCouple() {
     const invitationUrl = new URL(location.href);
     invitationUrl.search = "";
     invitationUrl.hash = "";
-    if (fullInvite) invitationUrl.searchParams.set("invite", "full");
+    if (fullInvite) invitationUrl.searchParams.set("invite", WEDDING_CONFIG.fullInviteCode);
     const shareUrl = new URL("https://wa.me/");
     shareUrl.searchParams.set("text", names + " | Wedding invitation\n" + weddingDate + "\n" + invitationUrl);
     const shareLink = externalLink("Share on WhatsApp", shareUrl);
