@@ -28,7 +28,7 @@ const WEDDING_CONFIG = {
   location: "New Delhi, India",
   timeZone: "Asia/Kolkata",
   ceremonyId: "anand-karaj",
-  audioPath: "./assets/instrumental.m4a",
+  audioPath: "./assets/santa-ke-karaj-aap-khaloa.mp3",
   venues: {
     hotel: {
       name: "Radisson Blu",
