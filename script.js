@@ -200,6 +200,33 @@ function setUpScrollReveals(invitation) {
   }
 }
 
+function setUpWeekendTransition(invitation) {
+  if (!fullInvite || reducedMotion.matches) return;
+
+  const wedding = byId("celebrations");
+  let frame;
+  let lastProgress = -1;
+  invitation.classList.add("weekend-transition");
+
+  function update() {
+    frame = undefined;
+    const viewportHeight = window.innerHeight;
+    const distance = Math.min(340, viewportHeight * .5);
+    const progress = Math.min(1, Math.max(0, (viewportHeight - wedding.getBoundingClientRect().top) / distance));
+    if (progress === lastProgress) return;
+    invitation.style.setProperty("--handoff-progress", progress);
+    lastProgress = progress;
+  }
+
+  function scheduleUpdate() {
+    if (frame === undefined) frame = requestAnimationFrame(update);
+  }
+
+  window.addEventListener("scroll", scheduleUpdate, { passive: true });
+  window.addEventListener("resize", scheduleUpdate);
+  update();
+}
+
 function startCountdown() {
   const target = Date.parse(ceremony.startsAt);
   const readings = Array.from(document.querySelectorAll("#countdown dd"));
@@ -274,6 +301,7 @@ function setUpEnvelope() {
     if (hasMusic) playMusic();
     seal.disabled = true;
     setUpScrollReveals(invitation);
+    setUpWeekendTransition(invitation);
     if (reducedMotion.matches) {
       finishOpening();
       return;

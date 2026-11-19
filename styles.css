@@ -545,6 +545,30 @@ svg { display: block; }
       to { transform: translateY(0) scale(1); }
     }
   }
+
+  .weekend-transition #engagement::after {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    background: var(--green-deep);
+    opacity: calc(var(--handoff-progress, 0) * .56);
+    pointer-events: none;
+    content: "";
+  }
+  .weekend-transition #engagement:is(:focus-visible, :has(:focus-visible))::after { opacity: 0; }
+  .weekend-transition #celebrations {
+    padding-top: clamp(2.25rem, 6svh, 4.5rem);
+    border-top: 1px solid var(--gold);
+    background:
+      linear-gradient(var(--green-deep), var(--green-mid) 42%, transparent) top / 100% 17rem no-repeat,
+      radial-gradient(ellipse at top, var(--sage), var(--ivory) 55%);
+  }
+  .weekend-transition #celebrations > .card-panel {
+    animation: none;
+    transform-origin: center top;
+    transform: translateY(calc((1 - var(--handoff-progress, 0)) * 3.5rem))
+      scale(calc(.92 + var(--handoff-progress, 0) * .08));
+  }
 }
 
 .footer { padding: 2.5rem 1rem 4.5rem; background: var(--cover-background); color: var(--ivory); }
