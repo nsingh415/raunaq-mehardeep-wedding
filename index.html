@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#103c32">
   <meta name="description" content="A wedding invitation with celebration times and venue directions.">
   <title>Wedding Invitation</title>
-  <link rel="stylesheet" href="./styles.css?v=4">
+  <link rel="stylesheet" href="./styles.css?v=5">
   <script src="./script.js?v=5" defer></script>
 </head>
 <body>
@@ -17,12 +17,26 @@
         <path d="M56 4v4m-2-2h4M104 13v6m-3-3h6M6 12v6m-3-3h6"/>
       </g>
     </symbol>
+    <symbol id="filigree" viewBox="0 0 100 100">
+      <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 92V2h90M7 72V7h65M7 42C16 33 31 31 40 21c9-10 20-15 39-14M42 7C33 16 31 31 21 40 11 49 6 60 7 79"/>
+        <path d="M13 27c11-2 18-9 22-16-11 0-19 6-22 16Zm14-14c-2 11-9 18-16 22 0-11 6-19 16-22ZM23 34c8 2 18-2 21-9-7-2-15 1-21 9Zm11-11c2 8-2 18-9 21-2-7 1-15 9-21Z"/>
+        <path d="M42 19c8-2 14 3 22-2-5-5-14-4-22 2ZM19 42c-2 8 3 14-2 22-5-5-4-14 2-22ZM48 24c1 6-2 11-6 12-4 1-6-2-4-5m-14 17c6 1 11-2 12-6 1-4-2-6-5-4"/>
+        <path d="M78 7l5-3 5 3-5 3-5-3ZM7 78l-3 5 3 5 3-5-3-5Z"/>
+      </g>
+    </symbol>
     <symbol id="icon-map" viewBox="0 0 24 24">
       <path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M19 10c0 5-7 10-7 10S5 15 5 10a7 7 0 1 1 14 0Z M14.5 10a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"/>
     </symbol>
   </svg>
 
   <section class="intro" id="intro" aria-labelledby="intro-title">
+    <div class="ornate-frame" aria-hidden="true">
+      <svg class="corner corner--top-left"><use href="#filigree"/></svg>
+      <svg class="corner corner--top-right"><use href="#filigree"/></svg>
+      <svg class="corner corner--bottom-left"><use href="#filigree"/></svg>
+      <svg class="corner corner--bottom-right"><use href="#filigree"/></svg>
+    </div>
     <div class="intro-content">
       <div class="intro-heading">
         <svg class="sprig" aria-hidden="true"><use href="#sprig"/></svg>
@@ -60,6 +74,12 @@
   <main id="invitation" hidden>
     <a class="skip-link" href="#celebrations">Skip to celebrations</a>
     <header class="hero">
+      <div class="ornate-frame" aria-hidden="true">
+        <svg class="corner corner--top-left"><use href="#filigree"/></svg>
+        <svg class="corner corner--top-right"><use href="#filigree"/></svg>
+        <svg class="corner corner--bottom-left"><use href="#filigree"/></svg>
+        <svg class="corner corner--bottom-right"><use href="#filigree"/></svg>
+      </div>
       <p class="hero-symbol" lang="pa">ੴ</p>
       <div class="hero-content">
         <p class="hero-label">Wedding invitation</p>
@@ -69,11 +89,18 @@
           <span class="hero-connector">weds</span>
           <span data-person="1"></span>
         </h1>
+        <div class="flourish cover-flourish" aria-hidden="true">
+          <svg class="sprig"><use href="#sprig"/></svg>
+        </div>
       </div>
     </header>
 
     <section class="engagement" id="engagement" aria-labelledby="engagement-title" hidden>
-      <div class="section">
+      <div class="section card-panel">
+        <div class="ornate-frame" aria-hidden="true">
+          <svg class="corner corner--top-left"><use href="#filigree"/></svg>
+          <svg class="corner corner--top-right"><use href="#filigree"/></svg>
+        </div>
         <div class="card-heading">
           <p class="engagement-motto reveal">A celebration of vows and promises</p>
           <p class="script-name engagement-host reveal" id="engagement-host"></p>
@@ -94,7 +121,11 @@
     </section>
 
     <section id="celebrations" aria-labelledby="celebrations-title">
-      <div class="section">
+      <div class="section card-panel">
+        <div class="ornate-frame" aria-hidden="true">
+          <svg class="corner corner--top-left"><use href="#filigree"/></svg>
+          <svg class="corner corner--top-right"><use href="#filigree"/></svg>
+        </div>
         <div class="card-heading">
           <div class="reveal">
             <p class="wedding-symbol" lang="pa" aria-hidden="true">ੴ</p>
