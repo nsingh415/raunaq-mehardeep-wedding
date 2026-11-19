@@ -254,37 +254,40 @@ function setUpEnvelope() {
     else music.pause();
   });
 
+  function finishOpening() {
+    intro.hidden = true;
+    intro.classList.remove("is-opening");
+    invitation.inert = false;
+    document.body.classList.remove("intro-open");
+    sound.hidden = !hasMusic;
+    const section = document.getElementById(location.hash.slice(1));
+    if (section && invitation.contains(section) && !section.closest("[hidden]")) {
+      section.tabIndex = -1;
+      section.focus({ preventScroll: true });
+      section.scrollIntoView({ behavior: "instant" });
+    } else {
+      byId("couple-heading").focus({ preventScroll: true });
+    }
+  }
+
   seal.addEventListener("click", () => {
     if (hasMusic) playMusic();
     seal.disabled = true;
+    setUpScrollReveals(invitation);
+    if (reducedMotion.matches) {
+      finishOpening();
+      return;
+    }
+
     intro.classList.add("is-opening");
-    const showInvitation = () => {
-      invitation.hidden = false;
-      setUpScrollReveals(invitation);
-      intro.classList.add("is-leaving");
-      const finish = () => {
-        intro.hidden = true;
-        invitation.inert = false;
-        document.body.classList.remove("intro-open");
-        sound.hidden = !hasMusic;
-        const section = document.getElementById(location.hash.slice(1));
-        if (section && invitation.contains(section) && !section.closest("[hidden]")) {
-          section.tabIndex = -1;
-          section.focus({ preventScroll: true });
-          section.scrollIntoView({ behavior: "instant" });
-        } else {
-          byId("couple-heading").focus({ preventScroll: true });
-        }
-      };
-      if (reducedMotion.matches) finish();
-      else setTimeout(finish, 490);
-    };
-    if (reducedMotion.matches) showInvitation();
-    else setTimeout(showInvitation, 970);
+    const exit = intro.getAnimations?.().find((animation) => animation.animationName === "invitation-exit");
+    if (exit) exit.finished.then(finishOpening, finishOpening);
+    else finishOpening();
   }, { once: true });
 
   document.body.classList.add("intro-open");
   invitation.inert = true;
+  invitation.hidden = false;
   byId("load-note").hidden = true;
   byId("seal-prompt").hidden = false;
   seal.disabled = false;

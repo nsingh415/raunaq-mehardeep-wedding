@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#103c32">
   <meta name="description" content="A wedding invitation with celebration times and venue directions.">
   <title>Wedding Invitation</title>
-  <link rel="stylesheet" href="./styles.css?v=2">
-  <script src="./script.js?v=3" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=4">
+  <script src="./script.js?v=4" defer></script>
 </head>
 <body>
   <svg class="svg-library" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -74,15 +74,20 @@
 
     <section class="engagement" id="engagement" aria-labelledby="engagement-title" hidden>
       <div class="section">
-        <div class="card-heading reveal">
-          <p class="engagement-motto">A celebration of vows and promises</p>
-          <p class="script-name engagement-host" id="engagement-host"></p>
-          <p>is delighted to invite you to the</p>
-          <h2 id="engagement-title">Sagan &amp; Engagement Ceremony</h2>
-          <p>of his brother</p>
-          <p class="script-name engagement-name" data-person="0"></p>
-          <p>with</p>
-          <p class="script-name engagement-name" data-person="1"></p>
+        <div class="card-heading">
+          <p class="engagement-motto reveal">A celebration of vows and promises</p>
+          <p class="script-name engagement-host reveal" id="engagement-host"></p>
+          <div class="reveal">
+            <p>is delighted to invite you to the</p>
+            <h2 id="engagement-title">Sagan &amp; Engagement Ceremony</h2>
+            <p>of his brother</p>
+          </div>
+          <p class="script-name engagement-name reveal" data-person="0"></p>
+          <p class="reveal">with</p>
+          <p class="script-name engagement-name reveal" data-person="1"></p>
+          <div class="flourish reveal" aria-hidden="true">
+            <svg class="sprig"><use href="#sprig"/></svg>
+          </div>
         </div>
         <div class="itinerary" id="engagement-itinerary"></div>
       </div>
@@ -90,13 +95,19 @@
 
     <section id="celebrations" aria-labelledby="celebrations-title">
       <div class="section">
-        <div class="card-heading reveal">
-          <p class="wedding-symbol" lang="pa" aria-hidden="true">ੴ</p>
-          <p class="invocation">With the blessings of <strong>Waheguru</strong></p>
-          <svg class="sprig" aria-hidden="true"><use href="#sprig"/></svg>
-          <p id="welcome-copy"></p>
-          <h2 id="celebrations-title">wedding celebrations</h2>
-          <p>of their son</p>
+        <div class="card-heading">
+          <div class="reveal">
+            <p class="wedding-symbol" lang="pa" aria-hidden="true">ੴ</p>
+            <p class="invocation">With the blessings of <strong>Waheguru</strong></p>
+          </div>
+          <div class="flourish reveal" aria-hidden="true">
+            <svg class="sprig"><use href="#sprig"/></svg>
+          </div>
+          <div class="reveal">
+            <p id="welcome-copy"></p>
+            <h2 id="celebrations-title">wedding celebrations</h2>
+            <p>of their son</p>
+          </div>
         </div>
         <div class="families" id="families"></div>
         <div class="itinerary" id="itinerary"></div>
@@ -111,11 +122,11 @@
       <div class="countdown" aria-labelledby="countdown-title" role="group">
         <div class="section">
           <h3 class="reveal" id="countdown-title">Until the Anand Karaj</h3>
-          <dl class="countdown-grid reveal" id="countdown">
-            <div><dt>Days</dt><dd>00</dd></div>
-            <div><dt>Hours</dt><dd>00</dd></div>
-            <div><dt>Minutes</dt><dd>00</dd></div>
-            <div><dt>Seconds</dt><dd>00</dd></div>
+          <dl class="countdown-grid" id="countdown">
+            <div class="reveal"><dt>Days</dt><dd>00</dd></div>
+            <div class="reveal"><dt>Hours</dt><dd>00</dd></div>
+            <div class="reveal"><dt>Minutes</dt><dd>00</dd></div>
+            <div class="reveal"><dt>Seconds</dt><dd>00</dd></div>
           </dl>
           <p id="countdown-complete" role="status" hidden>The time for the Anand Karaj has arrived.</p>
         </div>
