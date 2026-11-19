@@ -500,6 +500,12 @@ svg { display: block; }
     .hero { position: sticky; top: 0; }
     .hero ~ :is(section, .footer) { position: relative; z-index: 1; }
     .hero ~ section { box-shadow: 0 -.5rem 1.8rem #103c3229; }
+    #engagement {
+      position: sticky;
+      top: min(0px, calc(100svh - var(--engagement-height)));
+    }
+    #engagement:is(:focus-visible, :has(:focus-visible)) { top: auto; }
+    #celebrations { z-index: 2; }
 
     @supports (animation-timeline: scroll(root block)) and (animation-range: 0px 68svh) {
       .hero-content {

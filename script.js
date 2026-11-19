@@ -295,9 +295,16 @@ function setUpEnvelope() {
 
 renderCouple();
 if (fullInvite) {
+  const engagement = byId("engagement");
   byId("engagement-host").textContent = WEDDING_CONFIG.engagementHost;
   renderItinerary(byId("engagement-itinerary"), WEDDING_CONFIG.fullInviteEvents);
-  byId("engagement").hidden = false;
+  engagement.hidden = false;
+  if ("ResizeObserver" in window) {
+    const observer = new ResizeObserver(() => {
+      engagement.style.setProperty("--engagement-height", engagement.offsetHeight + "px");
+    });
+    observer.observe(engagement);
+  }
   document.querySelector(".skip-link").href = "#engagement";
 }
 renderItinerary(byId("itinerary"), events);
