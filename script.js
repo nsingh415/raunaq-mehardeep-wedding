@@ -5,17 +5,21 @@ const WEDDING_CONFIG = {
   couple: [
     {
       name: "Raunaq",
-      grandparents: [
-        "Late Mrs. Harinder Kaur & Late Mr. Rajinder Singh Sawhney",
-        "Mrs. Rajinder Kaur & Late Mr. Mohinder Singh",
-      ],
+      parents: "Son of Randeep Sawhney & Raminder Singh Sawhney",
     },
     {
       name: "Mehardeep",
-      parents: "Daughter of Gurpreet & Ravinder Pal Singh Anand",
+      parents: "Daughter of Gurpreet Kaur & Ravinder Pal Singh Anand",
     },
   ],
-  weddingHosts: "Randeep & Raminder",
+  weddingVerse: [
+    "ਸਤਿਗੁਰ ਦਾਤੇ ਕਾਜ ਰਚਾਇਆ ਆਪਣੀ ਮੇਹਰ ਕਰਾਈ॥",
+    "ਦਾਸਾਂ ਕਾਰਜ ਆਪ ਸਵਾਰੇ ਇਹ ਉਸਦੀ ਵਡਿਆਈ॥",
+  ],
+  grandparentBlessings: [
+    "Late Mrs. Harinder Kaur & Late Mr. Rajinder Singh Sawhney",
+    "Mrs. Rajinder Kaur & Late Mr. Mohinder Singh",
+  ],
   engagementHost: "Nehal",
   fullInviteCode: "6386cda9d96a9614894e4b7c",
   heavenlyBlessing: "Late Mrs. Bimla Kaur",
@@ -126,7 +130,13 @@ function renderCouple() {
     shareLink.className = "share-link";
     byId("invitation-footer").append(shareLink);
   }
-  byId("wedding-hosts").textContent = WEDDING_CONFIG.weddingHosts;
+  const weddingVerse = byId("wedding-verse");
+  for (const line of WEDDING_CONFIG.weddingVerse) weddingVerse.append(element("span", line));
+  const blessings = byId("grandparent-blessings");
+  for (const [index, names] of WEDDING_CONFIG.grandparentBlessings.entries()) {
+    if (index > 0) blessings.append(element("span", "and"));
+    blessings.append(element("span", names));
+  }
   byId("heavenly-blessing").textContent = WEDDING_CONFIG.heavenlyBlessing;
   for (const name of WEDDING_CONFIG.celebratingFamily) {
     byId("family-names").append(element("li", name));
@@ -137,12 +147,6 @@ function renderCouple() {
     const family = element("article", "", "family reveal");
     family.append(element("h3", person.name, "script-name"));
     if (person.parents) family.append(element("p", person.parents));
-    if (person.grandparents?.length) {
-      family.append(element("p", "Grandson of", "family-detail"));
-      for (const relative of person.grandparents) {
-        family.append(element("p", relative, "family-detail"));
-      }
-    }
     byId("families").append(family);
   }
 }

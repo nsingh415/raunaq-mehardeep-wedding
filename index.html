@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#103c32">
   <meta name="description" content="A wedding invitation with celebration times and venue directions.">
   <title>Wedding Invitation</title>
-  <link rel="stylesheet" href="./styles.css?v=9">
-  <script src="./script.js?v=9" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=10">
+  <script src="./script.js?v=10" defer></script>
 </head>
 <body>
   <svg class="svg-library" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
@@ -129,16 +129,19 @@
         <div class="card-heading">
           <div class="reveal">
             <p class="wedding-symbol" lang="pa" aria-hidden="true">ੴ</p>
-            <p class="invocation">With the blessings of <strong>Waheguru</strong></p>
+            <p class="wedding-verse" id="wedding-verse" lang="pa"></p>
           </div>
           <div class="flourish reveal" aria-hidden="true">
             <svg class="sprig"><use href="#sprig"/></svg>
           </div>
-          <p class="script-name host-name reveal" id="wedding-hosts"></p>
           <div class="reveal">
-            <p>cordially invite you to the</p>
-            <h2 id="celebrations-title">wedding celebrations</h2>
-            <p>of their son</p>
+            <p>With the blessings of</p>
+            <p class="grandparent-blessings" id="grandparent-blessings"></p>
+          </div>
+          <div class="reveal">
+            <p>We cordially invite you to the</p>
+            <h2 id="celebrations-title">wedding celebration</h2>
+            <p>of their Grandson</p>
           </div>
         </div>
         <div class="families" id="families"></div>
