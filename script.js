@@ -71,6 +71,20 @@ function element(tag, content = "", className = "") {
   return node;
 }
 
+function appendOrdinalDate(container, date) {
+  for (const { type, value } of dateFormat.formatToParts(date)) {
+    container.append(value);
+    if (type === "day") {
+      const day = Number(value);
+      const lastTwoDigits = day % 100;
+      const suffix = lastTwoDigits >= 11 && lastTwoDigits <= 13
+        ? "th"
+        : (["th", "st", "nd", "rd"][day % 10] ?? "th");
+      container.append(element("sup", suffix, "date-ordinal"));
+    }
+  }
+}
+
 function externalLink(label, url, map = false) {
   const link = element("a", label, map ? "map-link" : "");
   link.href = url;
@@ -89,15 +103,18 @@ function externalLink(label, url, map = false) {
 
 function renderCouple() {
   const names = couple.map(({ name }) => name).join(" & ");
-  const weddingDate = dateFormat.format(new Date(ceremony.startsAt));
+  const ceremonyDate = new Date(ceremony.startsAt);
+  const weddingDate = dateFormat.format(ceremonyDate);
   document.title = names + " | Wedding invitation";
   document.querySelectorAll("[data-couple]").forEach((node) => { node.textContent = names; });
   document.querySelector("[data-monogram]").textContent = couple.map(({ name }) => name[0]).join("·");
   document.querySelectorAll("[data-person]").forEach((node) => {
     node.textContent = couple[node.dataset.person].name;
   });
-  byId("wedding-date").textContent = weddingDate;
-  byId("footer-date").textContent = weddingDate + " · " + WEDDING_CONFIG.location;
+  appendOrdinalDate(byId("wedding-date"), ceremonyDate);
+  const footerDate = byId("footer-date");
+  appendOrdinalDate(footerDate, ceremonyDate);
+  footerDate.append(" · " + WEDDING_CONFIG.location);
   if (location.protocol === "https:") {
     const invitationUrl = new URL(location.href);
     invitationUrl.search = "";
@@ -152,7 +169,9 @@ function renderItinerary(container, schedule) {
     const firstVenue = dayEvents[0].venue;
     const sharesVenue = dayEvents.length > 1 && dayEvents.every((event) => event.venue === firstVenue);
     const cards = element("div", "", sharesVenue ? "day-cards day-cards--shared" : "day-cards");
-    group.append(element("h3", day, "day-heading reveal"), cards);
+    const dayHeading = element("h3", "", "day-heading reveal");
+    appendOrdinalDate(dayHeading, new Date(dayEvents[0].startsAt));
+    group.append(dayHeading, cards);
     if (sharesVenue) {
       const dayVenue = element("div", "", "day-venue reveal");
       appendVenue(dayVenue, venues[firstVenue], day);
