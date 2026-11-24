@@ -58,7 +58,9 @@ const WEDDING_CONFIG = {
 
 const byId = (id) => document.getElementById(id);
 const { couple, timeZone, venues, events } = WEDDING_CONFIG;
-const fullInvite = new URLSearchParams(location.search).get("invite") === WEDDING_CONFIG.fullInviteCode;
+const invitationOptions = new URLSearchParams(location.search);
+const fullInvite = invitationOptions.get("invite") === WEDDING_CONFIG.fullInviteCode;
+const classicEnvelope = invitationOptions.get("envelope") === "classic";
 const ceremony = events.find((event) => event.id === WEDDING_CONFIG.ceremonyId);
 const dateFormat = new Intl.DateTimeFormat("en-IN", {
   timeZone, weekday: "long", day: "numeric", month: "long", year: "numeric",
@@ -124,6 +126,7 @@ function renderCouple() {
     invitationUrl.search = "";
     invitationUrl.hash = "";
     if (fullInvite) invitationUrl.searchParams.set("invite", WEDDING_CONFIG.fullInviteCode);
+    if (classicEnvelope) invitationUrl.searchParams.set("envelope", "classic");
     const shareUrl = new URL("https://wa.me/");
     shareUrl.searchParams.set("text", names + " | Wedding invitation\n" + weddingDate + "\n" + invitationUrl);
     const shareLink = externalLink("Share on WhatsApp", shareUrl);
@@ -357,7 +360,7 @@ function setUpEnvelope() {
   byId("seal-prompt").hidden = false;
   seal.disabled = false;
 
-  if (["http:", "https:"].includes(location.protocol) && !reducedMotion.matches
+  if (!classicEnvelope && ["http:", "https:"].includes(location.protocol) && !reducedMotion.matches
       && "WebGL2RenderingContext" in window && "ResizeObserver" in window) {
     import("./envelope.js?v=1").then(({ createEnvelope }) => {
       if (seal.disabled || reducedMotion.matches) return;

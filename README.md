@@ -7,6 +7,8 @@ Open `index.html` in a browser, or run `python3 -m http.server 8000` in this fol
 - **January 10 only.** Send the site's regular link, such as `https://YOUR-USERNAME.github.io/raunaq-mehardeep-wedding/`. Guests see Anand Karaj and Wedding Lunch.
 - **January 9–10.** Share the full-weekend link with `?invite=YOUR-FULL-INVITE-CODE`, using `fullInviteCode` from `WEDDING_CONFIG`. Guests also see Sagan Ceremony, Ring Ceremony, and Dinner.
 
+The 3D envelope is the default. Add `?envelope=classic` to the January 10 link or `&envelope=classic` to the full-weekend link to open the original envelope.
+
 WhatsApp sharing follows the version opened. Missing or incorrect invite codes, including the old `?invite=full` link, show the January 10 invitation. Both versions are hosted publicly, and anyone with the full-weekend link can open it.
 
 ## Personalize
