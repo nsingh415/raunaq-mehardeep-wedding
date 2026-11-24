@@ -284,6 +284,8 @@ function setUpEnvelope() {
   const music = byId("music");
   const sound = byId("sound-toggle");
   const hasMusic = Boolean(WEDDING_CONFIG.audioPath);
+  const envelope = byId("envelope");
+  let model;
 
   if (hasMusic) music.src = WEDDING_CONFIG.audioPath;
 
@@ -304,9 +306,20 @@ function setUpEnvelope() {
     else music.pause();
   });
 
+  function removeModel() {
+    const previous = model;
+    model = undefined;
+    envelope.classList.remove("has-3d");
+    if (previous) {
+      previous.canvas.removeEventListener("webglcontextlost", removeModel);
+      previous.dispose();
+    }
+  }
+
   function finishOpening() {
     intro.hidden = true;
     intro.classList.remove("is-opening");
+    removeModel();
     invitation.inert = false;
     document.body.classList.remove("intro-open");
     sound.hidden = !hasMusic;
@@ -331,6 +344,7 @@ function setUpEnvelope() {
     }
 
     intro.classList.add("is-opening");
+    model?.play();
     const exit = intro.getAnimations?.().find((animation) => animation.animationName === "invitation-exit");
     if (exit) exit.finished.then(finishOpening, finishOpening);
     else finishOpening();
@@ -342,6 +356,20 @@ function setUpEnvelope() {
   byId("load-note").hidden = true;
   byId("seal-prompt").hidden = false;
   seal.disabled = false;
+
+  if (["http:", "https:"].includes(location.protocol) && !reducedMotion.matches
+      && "WebGL2RenderingContext" in window && "ResizeObserver" in window) {
+    import("./envelope.js?v=1").then(({ createEnvelope }) => {
+      if (seal.disabled || reducedMotion.matches) return;
+      model = createEnvelope(byId("envelope-stage"), {
+        names: intro.querySelector(".envelope-card-names").textContent,
+        date: byId("wedding-date").textContent,
+        monogram: seal.querySelector(".seal-stamp").textContent,
+      });
+      model.canvas.addEventListener("webglcontextlost", removeModel, { once: true });
+      envelope.classList.add("has-3d");
+    }).catch(removeModel);
+  }
 }
 
 renderCouple();
